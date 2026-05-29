@@ -98,11 +98,21 @@
         </label>
 
         <label>Fecha
-          <input type="text" id="reservationDate" placeholder="DD/MM/YYYY" required>
+          <div class="date-time-group">
+            <input type="text" id="reservationDay" placeholder="DD" maxlength="2" required>
+            <span>/</span>
+            <input type="text" id="reservationMonth" placeholder="MM" maxlength="2" required>
+            <span>/</span>
+            <input type="text" id="reservationYear" placeholder="YYYY" maxlength="4" required>
+          </div>
         </label>
 
         <label>Hora
-          <input type="text" id="reservationTime" placeholder="HH:MM" required>
+          <div class="date-time-group">
+            <input type="text" id="reservationHour" placeholder="HH" maxlength="2" required>
+            <span>:</span>
+            <input type="text" id="reservationMinute" placeholder="MM" maxlength="2" required>
+          </div>
         </label>
 
         <label>Comensales
@@ -141,7 +151,7 @@
   </section>
 </main>
 
-<!-- Pie de página -->
+<!-- footer -->
 <footer>
   <p>La Bodega de Jesus / Calle Rodrigo Díaz de Vivar 4 / 633 42 48 19</p>
   <p>* LA COMIDA DE LA YAYA FELISA EN TU PLATO *</p>

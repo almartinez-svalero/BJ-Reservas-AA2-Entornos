@@ -23,7 +23,10 @@ const request = async (url, options = {}) => {
   const data = await response.json();
 
   if (!response.ok) {
-    const validationMessage = data.errors ? data.errors.map(error => error.msg).join(' | ') : data.message;
+    const validationMessage = data.errors
+      ? data.errors.map(error => error.msg).join(' | ')
+      : data.message;
+
     throw new Error(validationMessage || 'Error en la petición');
   }
 
@@ -54,6 +57,7 @@ const renderTables = () => {
   tables.forEach(table => {
     const card = document.createElement('article');
     card.className = 'item-card';
+
     card.innerHTML = `
       <h3>${table.name}</h3>
       <p><strong>Capacidad:</strong> ${table.capacity} personas</p>
@@ -64,12 +68,13 @@ const renderTables = () => {
         <button class="danger" onclick="deleteTable(${table.id})">Eliminar</button>
       </div>
     `;
+
     tablesList.appendChild(card);
   });
 };
 
 const renderTableOptions = () => {
-  reservationTable.innerHTML = '';
+  reservationTable.innerHTML = '<option value="">Selecciona una mesa</option>';
 
   tables
     .filter(table => table.is_available)
@@ -79,6 +84,31 @@ const renderTableOptions = () => {
       option.textContent = `${table.name} · ${table.capacity} pax · ${table.zone}`;
       reservationTable.appendChild(option);
     });
+};
+
+const convertSpanishDateToISO = (date) => {
+  const [day, month, year] = date.split('/');
+  return `${year}-${month}-${day}`;
+};
+
+const convertISODateToSpanish = (date) => {
+  const [year, month, day] = date.split('-');
+  return `${day}/${month}/${year}`;
+};
+
+const getReservationDate = () => {
+  const day = document.getElementById('reservationDay').value.trim();
+  const month = document.getElementById('reservationMonth').value.trim();
+  const year = document.getElementById('reservationYear').value.trim();
+
+  return `${day}/${month}/${year}`;
+};
+
+const getReservationTime = () => {
+  const hour = document.getElementById('reservationHour').value.trim();
+  const minute = document.getElementById('reservationMinute').value.trim();
+
+  return `${hour}:${minute}`;
 };
 
 const renderReservations = () => {
@@ -92,10 +122,11 @@ const renderReservations = () => {
   reservations.forEach(reservation => {
     const card = document.createElement('article');
     card.className = 'item-card';
+
     card.innerHTML = `
       <h3>${reservation.customer_name}</h3>
       <p><strong>Teléfono:</strong> ${reservation.customer_phone}</p>
-      <p><strong>Fecha:</strong> ${reservation.reservation_date} a las ${reservation.reservation_time}</p>
+      <p><strong>Fecha:</strong> ${convertISODateToSpanish(reservation.reservation_date)} a las ${reservation.reservation_time}</p>
       <p><strong>Comensales:</strong> ${reservation.guests}</p>
       <p><strong>Mesa:</strong> ${reservation.table_name} (${reservation.table_zone})</p>
       <p><strong>Señal:</strong> ${Number(reservation.deposit).toFixed(2)} €</p>
@@ -105,18 +136,9 @@ const renderReservations = () => {
         <button class="danger" onclick="deleteReservation(${reservation.id})">Eliminar</button>
       </div>
     `;
+
     reservationsList.appendChild(card);
   });
-};
-
-const convertSpanishDateToISO = (date) => {
-  const [day, month, year] = date.split('/');
-  return `${year}-${month}-${day}`;
-};
-
-const convertISODateToSpanish = (date) => {
-  const [year, month, day] = date.split('-');
-  return `${day}/${month}/${year}`;
 };
 
 const validateTableForm = () => {
@@ -127,14 +149,15 @@ const validateTableForm = () => {
   if (name.length < 3) return 'El nombre de la mesa debe tener al menos 3 caracteres.';
   if (!capacity || capacity < 1 || capacity > 20) return 'La capacidad debe estar entre 1 y 20.';
   if (zone.length < 3) return 'La zona debe tener al menos 3 caracteres.';
+
   return null;
 };
 
 const validateReservationForm = () => {
   const customerName = document.getElementById('customerName').value.trim();
   const phone = document.getElementById('customerPhone').value.trim();
-  const date = document.getElementById('reservationDate').value.trim();
-  const time = document.getElementById('reservationTime').value.trim();
+  const date = getReservationDate();
+  const time = getReservationTime();
   const guests = Number(document.getElementById('guests').value);
   const deposit = Number(document.getElementById('deposit').value);
 
@@ -154,12 +177,14 @@ tableForm.addEventListener('submit', async (event) => {
   tableMessage.textContent = '';
 
   const error = validateTableForm();
+
   if (error) {
     tableMessage.textContent = error;
     return;
   }
 
   const id = document.getElementById('tableId').value;
+
   const payload = {
     name: document.getElementById('tableName').value.trim(),
     capacity: Number(document.getElementById('tableCapacity').value),
@@ -169,10 +194,18 @@ tableForm.addEventListener('submit', async (event) => {
 
   try {
     if (id) {
-      await request(`${API_URL}/tables/${id}`, { method: 'PUT', body: JSON.stringify(payload) });
+      await request(`${API_URL}/tables/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify(payload)
+      });
+
       tableMessage.textContent = 'Mesa actualizada correctamente.';
     } else {
-      await request(`${API_URL}/tables`, { method: 'POST', body: JSON.stringify(payload) });
+      await request(`${API_URL}/tables`, {
+        method: 'POST',
+        body: JSON.stringify(payload)
+      });
+
       tableMessage.textContent = 'Mesa creada correctamente.';
     }
 
@@ -189,17 +222,19 @@ reservationForm.addEventListener('submit', async (event) => {
   reservationMessage.textContent = '';
 
   const error = validateReservationForm();
+
   if (error) {
     reservationMessage.textContent = error;
     return;
   }
 
   const id = document.getElementById('reservationId').value;
+
   const payload = {
     customer_name: document.getElementById('customerName').value.trim(),
     customer_phone: document.getElementById('customerPhone').value.trim(),
-    reservation_date: convertSpanishDateToISO(document.getElementById('reservationDate').value.trim()),
-    reservation_time: document.getElementById('reservationTime').value.trim(),
+    reservation_date: convertSpanishDateToISO(getReservationDate()),
+    reservation_time: getReservationTime(),
     guests: Number(document.getElementById('guests').value),
     deposit: Number(document.getElementById('deposit').value),
     status: document.getElementById('status').value,
@@ -208,10 +243,18 @@ reservationForm.addEventListener('submit', async (event) => {
 
   try {
     if (id) {
-      await request(`${API_URL}/reservations/${id}`, { method: 'PUT', body: JSON.stringify(payload) });
+      await request(`${API_URL}/reservations/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify(payload)
+      });
+
       reservationMessage.textContent = 'Reserva actualizada correctamente.';
     } else {
-      await request(`${API_URL}/reservations`, { method: 'POST', body: JSON.stringify(payload) });
+      await request(`${API_URL}/reservations`, {
+        method: 'POST',
+        body: JSON.stringify(payload)
+      });
+
       reservationMessage.textContent = 'Reserva creada correctamente.';
     }
 
@@ -224,6 +267,7 @@ reservationForm.addEventListener('submit', async (event) => {
 
 window.editTable = (id) => {
   const table = tables.find(item => item.id === id);
+
   if (!table) return;
 
   document.getElementById('tableId').value = table.id;
@@ -231,15 +275,20 @@ window.editTable = (id) => {
   document.getElementById('tableCapacity').value = table.capacity;
   document.getElementById('tableZone').value = table.zone;
   document.getElementById('tableAvailable').value = table.is_available;
+
   tableMessage.textContent = 'Editando mesa seleccionada.';
 };
 
 window.deleteTable = async (id) => {
   const confirmDelete = confirm('Si eliminas esta mesa también se eliminarán sus reservas asociadas. ¿Continuar?');
+
   if (!confirmDelete) return;
 
   try {
-    await request(`${API_URL}/tables/${id}`, { method: 'DELETE' });
+    await request(`${API_URL}/tables/${id}`, {
+      method: 'DELETE'
+    });
+
     await loadTables();
     await loadReservations();
   } catch (error) {
@@ -249,26 +298,38 @@ window.deleteTable = async (id) => {
 
 window.editReservation = (id) => {
   const reservation = reservations.find(item => item.id === id);
+
   if (!reservation) return;
+
+  const [day, month, year] = convertISODateToSpanish(reservation.reservation_date).split('/');
+  const [hour, minute] = reservation.reservation_time.split(':');
 
   document.getElementById('reservationId').value = reservation.id;
   document.getElementById('customerName').value = reservation.customer_name;
   document.getElementById('customerPhone').value = reservation.customer_phone;
-  document.getElementById('reservationDate').value = convertISODateToSpanish(reservation.reservation_date);
-  document.getElementById('reservationTime').value = reservation.reservation_time;
+  document.getElementById('reservationDay').value = day;
+  document.getElementById('reservationMonth').value = month;
+  document.getElementById('reservationYear').value = year;
+  document.getElementById('reservationHour').value = hour;
+  document.getElementById('reservationMinute').value = minute;
   document.getElementById('guests').value = reservation.guests;
   document.getElementById('deposit').value = reservation.deposit;
   document.getElementById('status').value = reservation.status;
   reservationTable.value = reservation.table_id;
+
   reservationMessage.textContent = 'Editando reserva seleccionada.';
 };
 
 window.deleteReservation = async (id) => {
   const confirmDelete = confirm('¿Seguro que quieres eliminar esta reserva?');
+
   if (!confirmDelete) return;
 
   try {
-    await request(`${API_URL}/reservations/${id}`, { method: 'DELETE' });
+    await request(`${API_URL}/reservations/${id}`, {
+      method: 'DELETE'
+    });
+
     await loadReservations();
   } catch (error) {
     alert(error.message);
@@ -284,6 +345,11 @@ const resetTableForm = () => {
 const resetReservationForm = () => {
   reservationForm.reset();
   document.getElementById('reservationId').value = '';
+  document.getElementById('reservationDay').value = '';
+  document.getElementById('reservationMonth').value = '';
+  document.getElementById('reservationYear').value = '';
+  document.getElementById('reservationHour').value = '';
+  document.getElementById('reservationMinute').value = '';
   document.getElementById('deposit').value = 10;
   document.getElementById('status').value = 'PENDIENTE';
 };

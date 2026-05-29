@@ -164,6 +164,35 @@ select:focus {
   border-color: var(--brown);
 }
 
+/* Campos de fecha y hora */
+.date-time-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.date-time-group input {
+  width: auto;
+  text-align: center;
+}
+
+.date-time-group input[id="reservationDay"],
+.date-time-group input[id="reservationMonth"],
+.date-time-group input[id="reservationHour"],
+.date-time-group input[id="reservationMinute"] {
+  width: 70px;
+}
+
+.date-time-group input[id="reservationYear"] {
+  width: 100px;
+}
+
+.date-time-group span {
+  font-weight: 800;
+  font-size: 18px;
+  color: var(--dark);
+}
+
 /* Botones y acciones */
 button {
   border: 0;
