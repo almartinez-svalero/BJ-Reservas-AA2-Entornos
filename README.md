@@ -129,9 +129,4 @@ Ramas principales utilizadas:
 - `feature/validations`
 - `feature/documentation`
 
-## Autor
-
-Álvaro Martínez
-
-Actividad de Aprendizaje 2  
-Entornos de Desarrollo
+También se ha añadido una Wiki en GitHub con la especificación básica de la API.
