@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const tablesRoutes = require('./routes/tablesRoutes');
 require('./config/database');
 
 const app = express();
@@ -11,6 +12,8 @@ app.use(express.json());
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', project: 'BJ-Reservas' });
 });
+
+app.use('/api/tables', tablesRoutes);
 
 app.use((req, res) => {
   res.status(404).json({ message: 'Ruta no encontrada' });
