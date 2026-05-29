@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BodegaReserva | Gestión de reservas</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="hero">
+    <nav class="navbar">
+      <div class="brand">BodegaReserva</div>
+      <div class="nav-links">
+        <a href="#mesas">Mesas</a>
+        <a href="#reservas">Reservas</a>
+      </div>
+    </nav>
+    <section class="hero-content">
+      <p class="eyebrow">AA2 Entornos de Desarrollo</p>
+      <h1>Gestión de mesas y reservas para un restaurante</h1>
+      <p>Aplicación web con frontend en HTML + JavaScript, backend API REST, validaciones y base de datos SQLite.</p>
+    </section>
+  </header>
+
+  <main class="container">
+    <section class="dashboard">
+      <article class="stat-card">
+        <span id="tablesCount">0</span>
+        <p>Mesas registradas</p>
+      </article>
+      <article class="stat-card">
+        <span id="reservationsCount">0</span>
+        <p>Reservas activas</p>
+      </article>
+      <article class="stat-card">
+        <span>SQLite</span>
+        <p>Persistencia de datos</p>
+      </article>
+    </section>
+
+    <section id="mesas" class="section-grid">
+      <div class="panel">
+        <h2>Registrar / editar mesa</h2>
+        <form id="tableForm">
+          <input type="hidden" id="tableId">
+          <label>Nombre de la mesa
+            <input type="text" id="tableName" placeholder="Mesa 5" required>
+          </label>
+          <label>Capacidad
+            <input type="number" id="tableCapacity" min="1" max="20" required>
+          </label>
+          <label>Zona
+            <input type="text" id="tableZone" placeholder="Interior, terraza..." required>
+          </label>
+          <label>Disponible
+            <select id="tableAvailable">
+              <option value="1">Sí</option>
+              <option value="0">No</option>
+            </select>
+          </label>
+          <div class="form-actions">
+            <button type="submit">Guardar mesa</button>
+            <button type="button" class="secondary" id="cancelTableEdit">Cancelar</button>
+          </div>
+          <p class="form-message" id="tableMessage"></p>
+        </form>
+      </div>
+
+      <div class="panel list-panel">
+        <h2>Listado de mesas</h2>
+        <div id="tablesList" class="cards-list"></div>
+      </div>
+    </section>
+
+    <section id="reservas" class="section-grid">
+      <div class="panel">
+        <h2>Registrar / editar reserva</h2>
+        <form id="reservationForm">
+          <input type="hidden" id="reservationId">
+          <label>Cliente
+            <input type="text" id="customerName" placeholder="Nombre del cliente" required>
+          </label>
+          <label>Teléfono
+            <input type="tel" id="customerPhone" placeholder="600123123" required>
+          </label>
+          <label>Fecha
+            <input type="date" id="reservationDate" required>
+          </label>
+          <label>Hora
+            <input type="time" id="reservationTime" required>
+          </label>
+          <label>Comensales
+            <input type="number" id="guests" min="1" max="20" required>
+          </label>
+          <label>Señal (€)
+            <input type="number" id="deposit" min="0" step="0.01" value="10" required>
+          </label>
+          <label>Estado
+            <select id="status">
+              <option value="PENDIENTE">Pendiente</option>
+              <option value="CONFIRMADA">Confirmada</option>
+              <option value="CANCELADA">Cancelada</option>
+            </select>
+          </label>
+          <label>Mesa
+            <select id="reservationTable" required></select>
+          </label>
+          <div class="form-actions">
+            <button type="submit">Guardar reserva</button>
+            <button type="button" class="secondary" id="cancelReservationEdit">Cancelar</button>
+          </div>
+          <p class="form-message" id="reservationMessage"></p>
+        </form>
+      </div>
+
+      <div class="panel list-panel">
+        <h2>Listado de reservas</h2>
+        <div id="reservationsList" class="cards-list"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>BodegaReserva · Proyecto AA2 Entornos de Desarrollo</p>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
