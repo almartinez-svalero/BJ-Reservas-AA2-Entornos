@@ -109,6 +109,16 @@ const renderReservations = () => {
   });
 };
 
+const convertSpanishDateToISO = (date) => {
+  const [day, month, year] = date.split('/');
+  return `${year}-${month}-${day}`;
+};
+
+const convertISODateToSpanish = (date) => {
+  const [year, month, day] = date.split('-');
+  return `${day}/${month}/${year}`;
+};
+
 const validateTableForm = () => {
   const name = document.getElementById('tableName').value.trim();
   const capacity = Number(document.getElementById('tableCapacity').value);
@@ -123,14 +133,19 @@ const validateTableForm = () => {
 const validateReservationForm = () => {
   const customerName = document.getElementById('customerName').value.trim();
   const phone = document.getElementById('customerPhone').value.trim();
+  const date = document.getElementById('reservationDate').value.trim();
+  const time = document.getElementById('reservationTime').value.trim();
   const guests = Number(document.getElementById('guests').value);
   const deposit = Number(document.getElementById('deposit').value);
 
   if (customerName.length < 3) return 'El nombre del cliente debe tener al menos 3 caracteres.';
   if (!/^[0-9]{9,15}$/.test(phone)) return 'El teléfono debe tener entre 9 y 15 dígitos.';
+  if (!/^\d{2}\/\d{2}\/\d{4}$/.test(date)) return 'La fecha debe tener el formato dd/mm/aaaa.';
+  if (!/^([01]\d|2[0-3]):[0-5]\d$/.test(time)) return 'La hora debe tener el formato hh:mm.';
   if (!guests || guests < 1 || guests > 20) return 'Los comensales deben estar entre 1 y 20.';
   if (Number.isNaN(deposit) || deposit < 0) return 'La señal debe ser igual o mayor que 0.';
   if (!reservationTable.value) return 'Debes seleccionar una mesa.';
+
   return null;
 };
 
@@ -183,8 +198,8 @@ reservationForm.addEventListener('submit', async (event) => {
   const payload = {
     customer_name: document.getElementById('customerName').value.trim(),
     customer_phone: document.getElementById('customerPhone').value.trim(),
-    reservation_date: document.getElementById('reservationDate').value,
-    reservation_time: document.getElementById('reservationTime').value,
+    reservation_date: convertSpanishDateToISO(document.getElementById('reservationDate').value.trim()),
+    reservation_time: document.getElementById('reservationTime').value.trim(),
     guests: Number(document.getElementById('guests').value),
     deposit: Number(document.getElementById('deposit').value),
     status: document.getElementById('status').value,
@@ -239,7 +254,7 @@ window.editReservation = (id) => {
   document.getElementById('reservationId').value = reservation.id;
   document.getElementById('customerName').value = reservation.customer_name;
   document.getElementById('customerPhone').value = reservation.customer_phone;
-  document.getElementById('reservationDate').value = reservation.reservation_date;
+  document.getElementById('reservationDate').value = convertISODateToSpanish(reservation.reservation_date);
   document.getElementById('reservationTime').value = reservation.reservation_time;
   document.getElementById('guests').value = reservation.guests;
   document.getElementById('deposit').value = reservation.deposit;
