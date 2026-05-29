@@ -1,3 +1,4 @@
+// Validaciones para las operaciones CRUD de reservas
 const { body, param } = require('express-validator');
 
 const reservationIdValidator = [
