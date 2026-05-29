@@ -1,3 +1,4 @@
+// Validaciones para las operaciones CRUD de mesas
 const { body, param } = require('express-validator');
 
 const tableIdValidator = [
