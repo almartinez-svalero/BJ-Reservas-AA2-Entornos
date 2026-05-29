@@ -1,3 +1,4 @@
+// URL base de la API REST del backend
 const API_URL = 'http://localhost:3000/api';
 
 const tableForm = document.getElementById('tableForm');
