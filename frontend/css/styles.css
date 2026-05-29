@@ -1,12 +1,12 @@
 /* Variables principales de color */
 :root {
-  --dark: #1e1a17;
-  --brown: #6f4e37;
-  --cream: #f6efe7;
-  --paper: #fffaf4;
-  --muted: #7c6f64;
-  --border: #e4d5c7;
-  --danger: #a93636;
+  --dark: #102033;
+  --brown: #2563eb;
+  --cream: #eef5ff;
+  --paper: #ffffff;
+  --muted: #64748b;
+  --border: #cbdff5;
+  --danger: #dc2626;
 }
 
 /* Estilos generales */
@@ -28,7 +28,7 @@ a {
 
 /* Cabecera y zona hero */
 .hero {
-  background: linear-gradient(135deg, rgba(30, 26, 23, 0.95), rgba(111, 78, 55, 0.9));
+  background: linear-gradient(135deg, #0f172a, #2563eb);
   color: white;
   padding-bottom: 64px;
 }
@@ -89,7 +89,7 @@ a {
 /* Panel de estadísticas */
 .dashboard {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 16px;
   margin-bottom: 28px;
 }
@@ -226,7 +226,7 @@ button.danger {
   padding: 5px 9px;
   border-radius: 999px;
   background: #efe1d2;
-  color: var(--brown);
+  color: #000000;
   font-size: 12px;
   font-weight: 800;
 }

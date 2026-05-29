@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BJ-Reservas | Gestión de reservas</title>
+  <title>BJ - Reservas | Gestión de reservas</title>
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 
-<!-- Cabecera principal -->
+<!-- cabecera -->
 <header class="hero">
   <nav class="navbar">
-    <div class="brand">BJ-Reservas</div>
+    <div class="brand">BJ - Reservas</div>
     <div class="nav-links">
       <a href="#mesas">Mesas</a>
       <a href="#reservas">Reservas</a>
@@ -19,15 +19,13 @@
   </nav>
 
   <section class="hero-content">
-    <p class="eyebrow">AA2 Entornos de Desarrollo</p>
-    <h1>Gestión de mesas y reservas para un restaurante</h1>
-    <p>Aplicación web con frontend en HTML + JavaScript, backend API REST, validaciones y base de datos SQLite.</p>
+    <h1>MESAS Y RESERVAS.</h1>
   </section>
 </header>
 
 <main class="container">
 
-  <!-- Panel de resumen con contadores generales -->
+  <!-- panel resumen -->
   <section class="dashboard">
     <article class="stat-card">
       <span id="tablesCount">0</span>
@@ -39,13 +37,9 @@
       <p>Reservas activas</p>
     </article>
 
-    <article class="stat-card">
-      <span>SQLite</span>
-      <p>Persistencia de datos</p>
-    </article>
   </section>
 
-  <!-- Sección de gestión de mesas -->
+  <!-- mesas -->
   <section id="mesas" class="section-grid">
     <div class="panel">
       <h2>Registrar / editar mesa</h2>
@@ -87,7 +81,7 @@
     </div>
   </section>
 
-  <!-- Sección de gestión de reservas -->
+  <!-- reservas -->
   <section id="reservas" class="section-grid">
     <div class="panel">
       <h2>Registrar / editar reserva</h2>
@@ -104,11 +98,11 @@
         </label>
 
         <label>Fecha
-          <input type="date" id="reservationDate" required>
+          <input type="text" id="reservationDate" placeholder="DD/MM/YYYY" required>
         </label>
 
         <label>Hora
-          <input type="time" id="reservationTime" required>
+          <input type="text" id="reservationTime" placeholder="HH:MM" required>
         </label>
 
         <label>Comensales
@@ -149,7 +143,8 @@
 
 <!-- Pie de página -->
 <footer>
-  <p>BJ-Reservas · Proyecto AA2 Entornos de Desarrollo</p>
+  <p>La Bodega de Jesus / Calle Rodrigo Díaz de Vivar 4 / 633 42 48 19</p>
+  <p>* LA COMIDA DE LA YAYA FELISA EN TU PLATO *</p>
 </footer>
 
 <script src="js/app.js"></script>
