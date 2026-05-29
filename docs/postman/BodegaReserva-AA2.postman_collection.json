@@ -1,0 +1,131 @@
+{
+  "info": {
+    "name": "BodegaReserva AA2 Entornos",
+    "description": "Colección Postman con requests de ejemplo para la API REST de mesas y reservas.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "http://localhost:3000/api/health"
+      }
+    },
+    {
+      "name": "Mesas",
+      "item": [
+        {
+          "name": "Listar mesas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "http://localhost:3000/api/tables"
+          }
+        },
+        {
+          "name": "Obtener mesa por id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "http://localhost:3000/api/tables/1"
+          }
+        },
+        {
+          "name": "Crear mesa",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Mesa 5\",\n  \"capacity\": 4,\n  \"zone\": \"Interior\",\n  \"is_available\": 1\n}"
+            },
+            "url": "http://localhost:3000/api/tables"
+          }
+        },
+        {
+          "name": "Editar mesa",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Mesa 1 actualizada\",\n  \"capacity\": 2,\n  \"zone\": \"Interior\",\n  \"is_available\": 1\n}"
+            },
+            "url": "http://localhost:3000/api/tables/1"
+          }
+        },
+        {
+          "name": "Eliminar mesa",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "http://localhost:3000/api/tables/4"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reservas",
+      "item": [
+        {
+          "name": "Listar reservas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "http://localhost:3000/api/reservations"
+          }
+        },
+        {
+          "name": "Obtener reserva por id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "http://localhost:3000/api/reservations/1"
+          }
+        },
+        {
+          "name": "Crear reserva",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customer_name\": \"Marta López\",\n  \"customer_phone\": \"600123456\",\n  \"reservation_date\": \"2026-06-10\",\n  \"reservation_time\": \"21:30\",\n  \"guests\": 4,\n  \"deposit\": 20,\n  \"status\": \"CONFIRMADA\",\n  \"table_id\": 2\n}"
+            },
+            "url": "http://localhost:3000/api/reservations"
+          }
+        },
+        {
+          "name": "Editar reserva",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customer_name\": \"Marta López\",\n  \"customer_phone\": \"600123456\",\n  \"reservation_date\": \"2026-06-10\",\n  \"reservation_time\": \"22:00\",\n  \"guests\": 4,\n  \"deposit\": 20,\n  \"status\": \"CONFIRMADA\",\n  \"table_id\": 2\n}"
+            },
+            "url": "http://localhost:3000/api/reservations/1"
+          }
+        },
+        {
+          "name": "Eliminar reserva",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "http://localhost:3000/api/reservations/2"
+          }
+        }
+      ]
+    }
+  ]
+}
