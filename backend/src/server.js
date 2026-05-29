@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const tablesRoutes = require('./routes/tablesRoutes');
+const reservationsRoutes = require('./routes/reservationsRoutes');
 require('./config/database');
 
 const app = express();
@@ -14,6 +15,7 @@ app.get('/api/health', (req, res) => {
 });
 
 app.use('/api/tables', tablesRoutes);
+app.use('/api/reservations', reservationsRoutes);
 
 app.use((req, res) => {
   res.status(404).json({ message: 'Ruta no encontrada' });
